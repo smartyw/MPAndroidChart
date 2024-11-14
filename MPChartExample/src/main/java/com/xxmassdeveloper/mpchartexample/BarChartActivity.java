@@ -7,7 +7,9 @@ import android.content.pm.PackageManager;
 import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.core.content.ContextCompat;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -206,74 +208,47 @@ public class BarChartActivity extends DemoBase implements OnSeekBarChangeListene
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
-            case R.id.viewGithub: {
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse("https://github.com/PhilJay/MPAndroidChart/blob/master/MPChartExample/src/com/xxmassdeveloper/mpchartexample/BarChartActivity.java"));
-                startActivity(i);
-                break;
-            }
-            case R.id.actionToggleValues: {
-                for (IDataSet set : chart.getData().getDataSets())
-                    set.setDrawValues(!set.isDrawValuesEnabled());
-
+        if (item.getItemId() == R.id.viewGithub) {
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse("https://github.com/PhilJay/MPAndroidChart/blob/master/MPChartExample/src/com/xxmassdeveloper/mpchartexample/BarChartActivity.java"));
+            startActivity(i);
+        } else if (item.getItemId() == R.id.actionToggleValues) {
+            for (IDataSet set : chart.getData().getDataSets())
+                set.setDrawValues(!set.isDrawValuesEnabled());
+            chart.invalidate();
+        } else if (item.getItemId() == R.id.actionToggleIcons) {
+            for (IDataSet set : chart.getData().getDataSets())
+                set.setDrawIcons(!set.isDrawIconsEnabled());
+            chart.invalidate();
+        } else if (item.getItemId() == R.id.actionToggleHighlight) {
+            if (chart.getData() != null) {
+                chart.getData().setHighlightEnabled(!chart.getData().isHighlightEnabled());
                 chart.invalidate();
-                break;
             }
-            case R.id.actionToggleIcons: {
-                for (IDataSet set : chart.getData().getDataSets())
-                    set.setDrawIcons(!set.isDrawIconsEnabled());
-
-                chart.invalidate();
-                break;
-            }
-            case R.id.actionToggleHighlight: {
-                if (chart.getData() != null) {
-                    chart.getData().setHighlightEnabled(!chart.getData().isHighlightEnabled());
-                    chart.invalidate();
-                }
-                break;
-            }
-            case R.id.actionTogglePinch: {
-                if (chart.isPinchZoomEnabled())
-                    chart.setPinchZoom(false);
-                else
-                    chart.setPinchZoom(true);
-
-                chart.invalidate();
-                break;
-            }
-            case R.id.actionToggleAutoScaleMinMax: {
-                chart.setAutoScaleMinMaxEnabled(!chart.isAutoScaleMinMaxEnabled());
-                chart.notifyDataSetChanged();
-                break;
-            }
-            case R.id.actionToggleBarBorders: {
-                for (IBarDataSet set : chart.getData().getDataSets())
-                    ((BarDataSet) set).setBarBorderWidth(set.getBarBorderWidth() == 1.f ? 0.f : 1.f);
-
-                chart.invalidate();
-                break;
-            }
-            case R.id.animateX: {
-                chart.animateX(2000);
-                break;
-            }
-            case R.id.animateY: {
-                chart.animateY(2000);
-                break;
-            }
-            case R.id.animateXY: {
-                chart.animateXY(2000, 2000);
-                break;
-            }
-            case R.id.actionSave: {
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    saveToGallery();
-                } else {
-                    requestStoragePermission(chart);
-                }
-                break;
+        } else if (item.getItemId() == R.id.actionTogglePinch) {
+            if (chart.isPinchZoomEnabled())
+                chart.setPinchZoom(false);
+            else
+                chart.setPinchZoom(true);
+            chart.invalidate();
+        } else if (item.getItemId() == R.id.actionToggleAutoScaleMinMax) {
+            chart.setAutoScaleMinMaxEnabled(!chart.isAutoScaleMinMaxEnabled());
+            chart.notifyDataSetChanged();
+        } else if (item.getItemId() == R.id.actionToggleBarBorders) {
+            for (IBarDataSet set : chart.getData().getDataSets())
+                ((BarDataSet) set).setBarBorderWidth(set.getBarBorderWidth() == 1.f ? 0.f : 1.f);
+            chart.invalidate();
+        } else if (item.getItemId() == R.id.animateX) {
+            chart.animateX(2000);
+        } else if (item.getItemId() == R.id.animateY) {
+            chart.animateY(2000);
+        } else if (item.getItemId() == R.id.animateXY) {
+            chart.animateXY(2000, 2000);
+        } else if (item.getItemId() == R.id.actionSave) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                saveToGallery();
+            } else {
+                requestStoragePermission(chart);
             }
         }
         return true;
@@ -295,10 +270,12 @@ public class BarChartActivity extends DemoBase implements OnSeekBarChangeListene
     }
 
     @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {}
+    public void onStartTrackingTouch(SeekBar seekBar) {
+    }
 
     @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {}
+    public void onStopTrackingTouch(SeekBar seekBar) {
+    }
 
     private final RectF onValueSelectedRectF = new RectF();
 
@@ -323,5 +300,6 @@ public class BarChartActivity extends DemoBase implements OnSeekBarChangeListene
     }
 
     @Override
-    public void onNothingSelected() { }
+    public void onNothingSelected() {
+    }
 }
